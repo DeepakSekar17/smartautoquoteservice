@@ -1,0 +1,13 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+<aiml>
+   <category>
+      <pattern>HELLO</pattern>
+      <pattern>Hi</pattern>
+      
+      <template>
+         Hello User! Welcome to Galacticos Insurance Company!
+         How i can help
+      </template>
+      
+   </category>
+</aiml>
