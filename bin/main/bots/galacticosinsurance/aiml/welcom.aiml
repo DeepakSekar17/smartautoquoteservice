@@ -1,7 +1,6 @@
 <?xml version = "1.0" encoding = "UTF-8"?>
 <aiml>
    <category>
-      <pattern>HELLO</pattern>
       <pattern>Hi</pattern>
       
       <template>
@@ -10,4 +9,63 @@
       </template>
       
    </category>
+   <category>
+      <pattern>Hello</pattern>
+      
+      <template>
+         Hello User! Welcome to Galacticos Insurance Company!
+         How i can help
+      </template>
+      
+   </category>
+   
+   
+   <category>
+      <pattern>StartAuto</pattern>
+      <template>
+         Please enter your Email address to proceed further.
+      </template>
+   </category>
+   
+   <category>
+      <pattern>CustomerName</pattern>
+      <template>
+         Please enter your full name to proceed further.
+      </template>
+   </category>
+   
+   <category>
+      <pattern>CustomerVin</pattern>
+      <template>
+         Please enter your VIN Number to proceed further.
+      </template>
+   </category>
+   
+   <category>
+      <pattern>CustomerDL</pattern>
+      <template>
+         Please enter your DL Number to proceed further.
+      </template>
+   </category>
+   
+   <category>
+      <pattern>finalQuote</pattern>
+      <template>
+         Your final quote is here
+      </template>
+   </category>
+   
+    <topic name = "auto quote">
+      <category>
+         <pattern> * </pattern>
+         <template>Do you want Auto Quote? Press "StartAuto" for Auto Insurance</template>
+      </category>
+   </topic>
+   
+    <topic name = "new quote">
+      <category>
+         <pattern> * </pattern>
+         <template>Do you want Auto or Home Quote? Press "StartAuto" for Auto Insurance or "Home" for Renters Insurance</template>
+      </category>
+   </topic>
 </aiml>

@@ -4,6 +4,7 @@
 package com.insurance.auto.controller;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -196,10 +197,118 @@ public class AutoController {
 		quoteInformation.setFinalQuoteAmount(autoQuote.getFinalQuoteAmount());
 		return quoteInformation;
 	}
-	@GetMapping("/getChatInfo")
-	public ChatResponse getChatInfo(@RequestParam(name = "chatStr") String chatStr) {
-		String response = Chatbot.Chat(chatStr);
-		ChatResponse chatResponse = new ChatResponse();
+	@PostMapping("/getChatInfo")
+	public ChatResponse getChatInfo(@RequestBody ChatResponse chatResponse) {
+		String newMessage = chatResponse.getNewMessage();
+		Autoquote autoQuote = new Autoquote();
+		List<Autoquote> autoQuoteList = new ArrayList<>();
+		if("Please enter your Email address to proceed further.".equalsIgnoreCase(chatResponse.getChatResponse())){
+			autoQuote.setCustomerMailId(newMessage);
+			SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyyyHHmmssSSS");
+			Date now = new Date();
+		    String strDate = dateFormat.format(now);
+		    autoQuote.setReferenceNumber("GAI"+strDate);	
+			autoQuote = autoquoteRepository.saveAndFlush(autoQuote);
+			newMessage = "CustomerName";
+		}else if("Please enter your full name to proceed further.".equalsIgnoreCase(chatResponse.getChatResponse())){
+			if(null != chatResponse && chatResponse.getId() > 0){
+				autoQuoteList = autoquoteRepository.findByQuoteId(String.valueOf(chatResponse.getId()));
+				autoQuote = autoQuoteList.get(0);
+				autoQuote.setFirstName(chatResponse.getNewMessage());
+				autoQuote = autoquoteRepository.saveAndFlush(autoQuote);
+			}			
+			newMessage = "CustomerVin";
+		}else if("Please enter your VIN Number to proceed further.".equalsIgnoreCase(chatResponse.getChatResponse())){
+			if(null != chatResponse && chatResponse.getId() > 0){
+				autoQuoteList = autoquoteRepository.findByQuoteId(String.valueOf(chatResponse.getId()));
+				autoQuote = autoQuoteList.get(0);
+				autoQuote.setVin(chatResponse.getNewMessage());
+				autoQuote = autoquoteRepository.saveAndFlush(autoQuote);
+			}
+			newMessage = "CustomerDL";
+		}else if("Please enter your DL Number to proceed further.".equalsIgnoreCase(chatResponse.getChatResponse())){
+			if(null != chatResponse && chatResponse.getId() > 0){
+				autoQuoteList = autoquoteRepository.findByQuoteId(String.valueOf(chatResponse.getId()));
+				autoQuote = autoQuoteList.get(0);
+				String finalQuoteAmount;
+		    	String expiryDate;
+		    	String factorsConsidered;
+		    	String originalQuoteAmount;
+		    	String discounts;
+		    	
+		    	switch (chatResponse.getNewMessage()) {
+				case "A1234":
+					originalQuoteAmount="$1250/Yearly";
+					finalQuoteAmount = "$950/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "No Accidents;No Traffic Violations";
+					discounts = "5%";
+					break;
+				case "B1234":
+					originalQuoteAmount="$960/Yearly";
+					finalQuoteAmount = "$910/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "No Accidents;No Traffic Violations;New Driver";
+					discounts = "2%";
+					break;
+				case "C1234":
+					originalQuoteAmount="$1550/Yearly";
+					finalQuoteAmount = "$1450/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "New Customer Discount; Two Traffic violations";
+					discounts = "1%";
+					break;
+				case "D1234":
+					originalQuoteAmount="$850/Yearly";
+					finalQuoteAmount = "$450/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "No Accidents;No Traffic Violations; Long driving history";
+					discounts = "15%";
+					break;
+				case "E1234":
+					originalQuoteAmount="$1250/Yearly";
+					finalQuoteAmount = "$950/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "New customer; No Accidents;No Traffic Violations";
+					discounts = "5%";
+					break;
+				default:
+					originalQuoteAmount="$1250/Yearly";
+					finalQuoteAmount = "$950/Yearly";
+					expiryDate = "31Dec2021";
+					factorsConsidered= "No Accidents;No Traffic Violations;Standard Discount";
+					discounts = "5%";
+					break;
+				}
+		    	autoQuote.setDiscounts(discounts);
+		    	autoQuote.setFactorsConsidered(factorsConsidered);
+		    	autoQuote.setFinalQuoteAmount(finalQuoteAmount);
+		    	autoQuote.setOriginalQuoteAmount(originalQuoteAmount);
+		    	autoQuote.setExpiryDate(expiryDate);
+		    	autoQuote.setDrivingLicense(chatResponse.getNewMessage());
+				autoQuote = autoquoteRepository.saveAndFlush(autoQuote);
+			}
+			newMessage = "finalQuote";
+		}else{
+			chatResponse.setId(0);
+			chatResponse.setReferenceNumber("");
+			
+		}
+		
+		String response = Chatbot.Chat(newMessage);
+		List<String> messages = new ArrayList<>();
+		messages.add(chatResponse.getNewMessage());
+		if(newMessage.equalsIgnoreCase("finalQuote")){
+			response = response+" Reference Number:"+autoQuote.getReferenceNumber()+"; Original Quote Amount:"+autoQuote.getOriginalQuoteAmount()
+			+"Discount: "+autoQuote.getDiscounts()+" Final Quote Amount: "+autoQuote.getFinalQuoteAmount()+". Please click to view detailed Quote and for Purchasing the Quote";
+		}
+		messages.add(response);
+		chatResponse.setCurrentQuestion(chatResponse.getNewMessage());
+		chatResponse.getMessages().addAll(messages);
+		if(null != autoQuote && autoQuote.getId() > 0){
+			chatResponse.setId(autoQuote.getId());	
+			chatResponse.setReferenceNumber(autoQuote.getReferenceNumber());
+		}
 		chatResponse.setChatResponse(response);
 		return chatResponse;
 	}
