@@ -10,7 +10,7 @@ import org.alicebot.ab.MagicStrings;
 
 public class Chatbot {
 	private static final boolean TRACE_MODE = false;
-	static String botName = "super";
+	static String botName = "super"; 
 	private static String getResourcesPath() {
 		File currDir = new File(".");
 		String path = currDir.getAbsolutePath();
