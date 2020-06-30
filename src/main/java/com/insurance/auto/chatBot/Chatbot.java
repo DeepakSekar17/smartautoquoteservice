@@ -1,6 +1,9 @@
 package com.insurance.auto.chatBot;
 
 import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 
 import org.alicebot.ab.Bot;
 import org.alicebot.ab.Chat;
@@ -17,6 +20,12 @@ public class Chatbot {
 		path = path.substring(0, path.length() - 2);
 		System.out.println(path);
 		String resourcesPath = path + File.separator + "src" + File.separator + "main" + File.separator + "resources";
+		System.out.println("-------------------------------");
+		String fileName = "bots/galacticosinsurance/aiml/welcom.aiml";
+		ClassLoader classLoader = new Chatbot().getClass().getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+		resourcesPath = file.getAbsolutePath().replace("bots\\galacticosinsurance\\aiml\\welcom.aiml", "");
+		System.out.println("Test------------->"+resourcesPath);
 		return resourcesPath;
 	}
 
@@ -25,7 +34,7 @@ public class Chatbot {
 			String resourcesPath = getResourcesPath();
 			System.out.println(resourcesPath);
 			MagicBooleans.trace_mode = TRACE_MODE;
-			Bot bot = new Bot("galacticosinsurance", resourcesPath);
+			Bot bot = new Bot("galacticosinsurance", "/home/ec2-user/resources");
 			Chat chatSession = new Chat(bot);
 			bot.brain.nodeStats();
 			String textLine = "";
