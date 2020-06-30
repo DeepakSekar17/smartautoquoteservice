@@ -1,0 +1,20 @@
+com/insurance/auto/chatBot/Chatbot.java
+ com.insurance.auto.chatBot.Chatbot
+com/insurance/auto/chatBot/AddAiml.java
+ com.insurance.auto.chatBot.AddAiml
+com/insurance/auto/repository/AutoquoteRepository.java
+ com.insurance.auto.repository.AutoquoteRepository
+com/insurance/auto/entities/Autoquote.java
+ com.insurance.auto.entities.Autoquote
+com/insurance/auto/pojo/Vindetails.java
+ com.insurance.auto.pojo.Vindetails
+com/insurance/auto/AutoApplication.java
+ com.insurance.auto.AutoApplication
+com/insurance/auto/controller/AutoController.java
+ com.insurance.auto.controller.AutoController
+com/insurance/auto/pojo/VinReponse.java
+ com.insurance.auto.pojo.VinReponse
+com/insurance/auto/pojo/QuoteInformation.java
+ com.insurance.auto.pojo.QuoteInformation
+com/insurance/auto/pojo/ChatResponse.java
+ com.insurance.auto.pojo.ChatResponse

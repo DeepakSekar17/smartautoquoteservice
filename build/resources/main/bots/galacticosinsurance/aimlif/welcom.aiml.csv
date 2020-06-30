@@ -1,0 +1,11 @@
+0,Hi,*,*,Hello User! Welcome to Galacticos Insurance Company! How i can help,welcom.aiml
+0,Hello,*,*,Hello User! Welcome to Galacticos Insurance Company! How i can help,welcom.aiml
+0,StartAuto,*,*,Please enter your Email address to proceed further.,welcom.aiml
+0,CustomerDL,*,*,Please enter your DL Number to proceed further.,welcom.aiml
+0,CustomerVin,*,*,Please enter your VIN Number to proceed further.,welcom.aiml
+0,CustomerName,*,*,Please enter your full name to proceed further.,welcom.aiml
+0,CustomerVin,*,*,Please enter your VIN Number to proceed further.,welcom.aiml
+0,CustomerDL,*,*,Please enter your DL Number to proceed further.,welcom.aiml
+0,finalQuote,*,*,Your final quote is here,welcom.aiml
+0,*new * quote*,*,*,"Do you want to proceed with Auto Quote? Enter ""StartAuto"".",welcom.aiml
+0,*,*,*,"Do you want Auto or Home Quote? Press ""StartAuto"" for Auto Insurance or ""Home"" for Renters Insurance",welcom.aiml
